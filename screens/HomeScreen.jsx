@@ -1,17 +1,33 @@
-import { View, Text, StyleSheet } from 'react-native';
 
-export const HomeScreen = ({ props }) => {
+import {  StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
+import { MovieContainer } from '../components/movie/MovieContainer';
+import { getPopularMovies } from '../data/api';
+
+export const HomeScreen = ({  }) => {
+  const [movies, setMovies] = useState([]);
+
+  // useEffect(() => {
+  //    const movies = getPopularMovies();
+  //     setMovies(movies);
+  // }, []);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const moviesData = await getPopularMovies();
+      setMovies(moviesData);
+    };
+    
+    fetchMovies();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-    </View>
+    <MovieContainer movies={movies} />
   );
 };
 
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  
 });
