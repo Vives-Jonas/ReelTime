@@ -1,4 +1,7 @@
 import { View, Text,Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { theme } from '../../styles/theme.styles.js';
+
+const { colors, typography } = theme;
 
 export const AvatarCard = ({ profileData }) => {
   const { name, role, avatar, contact } = profileData;
@@ -25,7 +28,7 @@ export const AvatarCard = ({ profileData }) => {
 const styles = StyleSheet.create({
     container: {
     flexGrow: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
     paddingTop: 15,
   },
   profileContainer: {
@@ -39,27 +42,27 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     marginBottom: 10,
     borderWidth: 3,
-    borderColor: '#E5FFE5',
+    borderColor: colors.border,
   },
   profileName: {
-    fontSize: 24,
+    fontSize: typography.title,
     fontWeight: 'bold',
     marginBottom: 2,
   },
   profileRole: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: typography.medium,
+    color: colors.textMuted,
     marginBottom: 12,
   },
 
   emailButton: {
-    backgroundColor: '#2ECC71',
+    backgroundColor: colors.buttonPrimary,
     paddingVertical: 12,
     paddingHorizontal: 40,
     borderRadius: 25,
   },
   emailButtonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: colors.buttonText,
+    fontSize: typography.medium,
   },
 });

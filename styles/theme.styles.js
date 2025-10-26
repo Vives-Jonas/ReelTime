@@ -1,0 +1,27 @@
+export const theme = {
+  colors: {
+    primary: '#3F51B5',       
+    secondary: '#FFB300',
+    background: '#F9FAFB',
+    surface: '#FFFFFF',       
+    surfaceAlt: '#F1F3F6',
+    textPrimary: '#212121',   
+    textSecondary: '#5F6368', 
+    textMuted: '#9E9E9E', 
+    border: '#E0E0E0',
+    buttonPrimary: '#3F51B5',
+    buttonText: '#FFFFFF',
+    buttonSecondary: '#ECEFF1',
+    shadow: 'rgba(0, 0, 0, 0.15)',
+    link: '#1E88E5',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+    error: '#E53935',
+  },
+  typography: {
+    small: 14,
+    medium: 16,
+    large: 20,
+    title: 24,    
+  },
+};

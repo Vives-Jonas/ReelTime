@@ -11,6 +11,7 @@ const profile = {
   avatar: require('../assets/programmer.png'),
   socials: {
     github: 'https://github.com/jonasvanluchene',
+    gitlab: 'https://gitlab.com/JonasVanluchene',
     linkedin: 'https://www.linkedin.com/in/jonas-vanluchene/',
     twitter: 'https://twitter.com/jonas_codes'
   }
