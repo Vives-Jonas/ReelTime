@@ -7,6 +7,7 @@ export const MovieList = ({ movies, navigation }) => {
     <View style={styles.container}>
       <FlashList
         data={movies}
+        horizontal
         renderItem={({ item }) => (
           <MovieItem movie={item} navigation={navigation} />
         )}
@@ -20,18 +21,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  movieItem: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  movieTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  movieYear: {
-    fontSize: 14,
-    color: '#666',
-  },
+ 
+  
 });
   

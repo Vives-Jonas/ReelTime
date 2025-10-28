@@ -1,3 +1,19 @@
+    const url = 'https://api.themoviedb.org/3';
+    const key = 'dc8156ce55167d01eef861adf0e52076'
+    
+    let genreMap = null;
+    
+    export const getGenres = async () => {
+      if (genreMap) return genreMap;
+      const response = await fetch(`${url}/genre/movie/list?api_key=${key}&language=en-US`);
+      const data = await response.json();
+      genreMap = data.genres.reduce((acc, genre) => {
+        acc[genre.id] = genre.name;
+        return acc;
+      }, {});
+      return genreMap;
+    };
+
     const results = [
         {
             "adult": false,
@@ -8,12 +24,12 @@
             ],
             "id": 1156594,
             "original_language": "es",
-            "original_title": "Culpa nuestra",
+            "original_title": "Culpa  nuestra",
             "overview": "Jenna and Lion's wedding brings about the long-awaited reunion between Noah and Nick after their breakup. Nick's inability to forgive Noah stands as an insurmountable barrier. He, heir to his grandfather's businesses, and she, starting her professional life, resist fueling a flame that's still alive. But now that their paths have crossed again, will love be stronger than resentment?",
             "popularity": 532.1524,
             "poster_path": "/yzqHt4m1SeY9FbPrfZ0C2Hi9x1s.jpg",
             "release_date": "2025-10-15",
-            "title": "Our Fault",
+            "title": "Our wedding brings about the long-awaited reunion between Noah Fault",
             "video": false,
             "vote_average": 7.679,
             "vote_count": 379
@@ -33,7 +49,7 @@
             "popularity": 340.5134,
             "poster_path": "/bcP7FtskwsNp1ikpMQJzDPjofP5.jpg",
             "release_date": "2025-07-11",
-            "title": "Captain Hook - The Cursed Tides",
+            "title": "Captain Hook -wedding brings about the long-awaited reunion between Noah Fault The Cursed Tides",
             "video": false,
             "vote_average": 4.8,
             "vote_count": 25
@@ -117,9 +133,14 @@
             "vote_count": 8
         },]
 
-        export const getPopularMovies = () => {
-          return results;
+       export const getPopularMovies = async () => {
+            if (!genreMap) await getGenres();
+            return results.map(movie => ({
+                     ...movie,
+                    genres: (movie.genre_ids || []).map(id => genreMap[id]).filter(Boolean)
+                }));
         };
+
         export const getPopularMovie = (id) => {
           return results.find(movie => movie.id === id);
         };
