@@ -8,6 +8,7 @@ export const MovieList = ({ movies, navigation }) => {
       <FlashList
         data={movies}
         horizontal
+        showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <MovieItem movie={item} navigation={navigation} />
         )}
@@ -21,7 +22,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
- 
-  
+
+
 });
-  

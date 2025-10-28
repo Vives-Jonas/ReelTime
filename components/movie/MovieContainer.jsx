@@ -1,5 +1,8 @@
 import { View, StyleSheet,Text } from 'react-native';
 import { MovieList } from './MovieList';
+import { theme } from '../../styles/theme.styles';
+
+const { colors, typography } = theme;
 
 export const MovieContainer = ({ movies }) => {
   return (
@@ -15,7 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 24,
+    fontSize: typography.title,
     fontWeight: 'bold',
     margin: 16,
   },
