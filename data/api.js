@@ -14,6 +14,88 @@
       return genreMap;
     };
 
+    const result = {
+    "adult": false,
+    "backdrop_path": "/bP6BqIljp4a3BqhxN7YPckcpKI.jpg",
+    "belongs_to_collection": null,
+    "budget": 0,
+    "genres": [
+        {
+            "id": 28,
+            "name": "Action"
+        },
+        {
+            "id": 12,
+            "name": "Adventure"
+        },
+        {
+            "id": 18,
+            "name": "Drama"
+        },
+        {
+            "id": 36,
+            "name": "History"
+        }
+    ],
+    "homepage": "",
+    "id": 1195631,
+    "imdb_id": "tt22478818",
+    "origin_country": [
+        "GB"
+    ],
+    "original_language": "en",
+    "original_title": "William Tell",
+    "overview": "The narrative unfolds in the 14th Century, when the European nations vie for supremacy within the Holy Roman Empire. The ambitious Austrian Empire, desiring more land, invades neighbouring Switzerland, a serene and pastoral nation. Protagonist William Tell, a formerly peaceful hunter, finds himself forced to take action as his family and homeland come under threat from the oppressive Austrian King and his ruthless warlords.",
+    "popularity": 16.7103,
+    "poster_path": "/8SdaetXSTPyQVDb5pTEPRLBSx15.jpg",
+    "production_companies": [
+        {
+            "id": 3130,
+            "logo_path": "/b2blyz6adfykkLdLQId8SNHGfZk.png",
+            "name": "Tempo Productions",
+            "origin_country": "GB"
+        },
+        {
+            "id": 86177,
+            "logo_path": "/3AKkfIbKVXiMUBx5RRaU4T7Y9d8.png",
+            "name": "Groenlandia",
+            "origin_country": "IT"
+        },
+        {
+            "id": 207726,
+            "logo_path": "/iHkBQ0jepmaFnF13YslVoxwKs0l.png",
+            "name": "Free Turn",
+            "origin_country": "GB"
+        }
+    ],
+    "production_countries": [
+        {
+            "iso_3166_1": "GB",
+            "name": "United Kingdom"
+        },
+        {
+            "iso_3166_1": "IT",
+            "name": "Italy"
+        }
+    ],
+    "release_date": "2025-01-17",
+    "revenue": 264637,
+    "runtime": 133,
+    "spoken_languages": [
+        {
+            "english_name": "English",
+            "iso_639_1": "en",
+            "name": "English"
+        }
+    ],
+    "status": "Released",
+    "tagline": "The narrative unfolds in the 14th Century",
+    "title": "William Tell",
+    "video": false,
+    "vote_average": 6.248,
+    "vote_count": 165
+}
+
     const results = [
         {
             "adult": false,
@@ -141,6 +223,14 @@
                 }));
         };
 
+        export const getTrendingMovies = async () => {
+            if (!genreMap) await getGenres();
+            return results.map(movie => ({
+                     ...movie,
+                    genres: (movie.genre_ids || []).map(id => genreMap[id]).filter(Boolean)
+                }));
+        };
+
         export const getPopularMovie = (id) => {
-          return results.find(movie => movie.id === id);
+          return result;
         };

@@ -13,14 +13,14 @@ function HomeStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='HomeMain'
+        name='Movies'
         component={HomeScreen}
         options={{ headerShown: false }} 
       />
       <Stack.Screen
         name='Details'
         component={DetailsScreen}
-        options={{ title: "Inhoud" }}
+        options={{ title: "Movie Details" }}
       />
     </Stack.Navigator>
   );
@@ -46,7 +46,7 @@ export default function App() {
           tabBarActiveTintColor: 'tomato',
           tabBarInactiveTintColor: 'gray',
         })}>
-          <Tab.Screen name='Home' component={HomeStack}  />
+          <Tab.Screen name='Home' component={HomeStack} options={{ headerShown: false }} />
           <Tab.Screen name='My Profile' component={ProfileScreen} />
         </Tab.Navigator>
       </NavigationContainer>

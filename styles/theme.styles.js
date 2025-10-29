@@ -8,7 +8,7 @@ export const theme = {
     surfaceOpaque: 'rgba(0, 0, 0, 0.7)',
     textPrimary: '#212121',   
     textSecondary: '#5F6368', 
-    textMuted: '#9E9E9E', 
+    textMuted: '#777676ff', 
     textWhite: '#FFFFFF',
     border: '#E0E0E0',
     buttonPrimary: '#3F51B5',

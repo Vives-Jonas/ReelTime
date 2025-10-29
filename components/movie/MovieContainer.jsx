@@ -1,13 +1,15 @@
 import { View, StyleSheet,Text } from 'react-native';
 import { MovieList } from './MovieList';
+
 import { theme } from '../../styles/theme.styles';
 
-const { colors, typography } = theme;
+const {  typography } = theme;
 
-export const MovieContainer = ({ movies }) => {
+export const MovieContainer = ({ title, movies}) => {
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.title}>Movies</Text>
+      <Text style={styles.title}>{title}</Text>
       <MovieList movies={movies}  />
     </View>
   );
@@ -23,3 +25,5 @@ const styles = StyleSheet.create({
     margin: 16,
   },
 });
+
+
