@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/reeltime.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": true,    
     "splash": {
       "image": "./assets/reeltime.png",
       "resizeMode": "contain",

@@ -2,12 +2,12 @@ import {  StyleSheet,ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { MovieContainer } from '../components/movie/MovieContainer';
 import { SearchBar } from '../components/ui/SearchBar';
-import { getPopularMovies, getTrendingMovies } from '../data/api';
+import { getPopularMovies, getTopRatedMovies } from '../data/api';
 
 export const HomeScreen = ({  }) => {
   
   const [popularMovies, setPopularMovies] = useState([]);
-  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState(false);
 
@@ -21,16 +21,16 @@ export const HomeScreen = ({  }) => {
   };
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const [popular, trending] = await Promise.all([
+    const loadMovies = async () => {
+      const [popular, topRated] = await Promise.all([
         getPopularMovies(),
-        getTrendingMovies()
+        getTopRatedMovies()
       ]);
       setPopularMovies(popular);
-      setTrendingMovies(trending);
+      setTopRatedMovies(topRated);
     };
-    
-    fetchMovies();
+
+    loadMovies();
   }, []);
 
 
@@ -44,8 +44,8 @@ export const HomeScreen = ({  }) => {
       />
       
       <MovieContainer 
-        title="Trending Now" 
-        movies={applyFilters(trendingMovies)} 
+        title="Top Rated Movies" 
+        movies={applyFilters(topRatedMovies)} 
       /></ScrollView>
   );
 };

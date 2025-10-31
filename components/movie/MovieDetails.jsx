@@ -1,6 +1,7 @@
-import { ScrollView, Image, View, Text, StyleSheet } from 'react-native';
+import {  Image, View, Text, StyleSheet } from 'react-native';
 import { StatItem } from '../ui/StatItem';
 import { theme } from '../../styles/theme.styles';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const { colors, typography } = theme;
 
@@ -27,12 +28,11 @@ export const MovieDetails = ({ movie }) => {
       </View>
 
       <View style={styles.statsBar}>
-        <StatItem icon={require('../../assets/star.png')} value={movie.vote_average.toFixed(1)} />
-        <StatItem icon={require('../../assets/calendar.png')} value={new Date(movie.release_date).getFullYear()} />
-        <StatItem icon={require('../../assets/stopwatch.png')} value={`${movie.runtime} min`} />
+        <StatItem icon='star' color='gold' value={movie.vote_average.toFixed(1)} />
+        <StatItem icon='calendar' value={new Date(movie.release_date).getFullYear()} />
+        <StatItem icon='clock-circle' value={`${movie.runtime} min`} />
       </View>
 
-      {/* Genres */}
       <View style={styles.genresContainer}>
         {movie.genres.map(genre => (
           <View key={genre.id} style={styles.genreChip}>
@@ -41,7 +41,6 @@ export const MovieDetails = ({ movie }) => {
         ))}
       </View>
 
-      {/* Overview */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Overview</Text>
         <Text style={styles.overview}>{movie.overview}</Text>
@@ -67,8 +66,8 @@ const styles = StyleSheet.create({
   
   titleSection: {
     position: 'absolute',
-    bottom: -60,
-    left: 2,
+    bottom: -80,
+    left: 8,
   },
   poster: {
     width: 100,
@@ -89,8 +88,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   statsBar: {
-    marginTop: 12,
-    marginBottom: 16,
+    marginTop: 42,
+    marginBottom: 26,
     flexDirection: 'row',
     justifyContent: 'space-around', 
   },

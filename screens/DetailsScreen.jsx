@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { MovieDetails} from '../components/movie/MovieDetails';
-import { getPopularMovie } from '../data/api';
+import { getMovie } from '../data/api';
 
 export const DetailsScreen = ({ route }) => {
   const { id } = route.params;
@@ -12,7 +12,7 @@ export const DetailsScreen = ({ route }) => {
    
       const fetchMovie = async () => {
       setLoading(true);
-      const movieData = await getPopularMovie(id);
+      const movieData = await getMovie(id);
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setMovie(movieData);
       setLoading(false);
@@ -22,11 +22,10 @@ export const DetailsScreen = ({ route }) => {
   }, [id]);
 
 
-  
-    return (
+  return (
   <View style={styles.container}>
     {loading ? (
-      <Text>Loading...</Text>
+      <ActivityIndicator size="large"ActivityIndicator color="#0000ff" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
     ) : (
       <MovieDetails movie={movie} />
     )}
