@@ -1,6 +1,5 @@
-   
-    const key = 'dc8156ce55167d01eef861adf0e52076';
-    const url = 'https://api.themoviedb.org/3';
+    const key = process.env.EXPO_PUBLIC_API_KEY;  
+    const url = process.env.EXPO_PUBLIC_API_URL;
 
     let genreMap = null;
     
