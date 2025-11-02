@@ -24,7 +24,7 @@
         return data.results || [];
     };
 
-    export const getPopularMovies = async () => {
+    export const getPopularMovies = async () => {        
         if (!genreMap) await getGenres();
         const results = await fetchMovies(`${url}/movie/popular?api_key=${key}`);
         return results.map(movie => ({

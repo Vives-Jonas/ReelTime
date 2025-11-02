@@ -1,7 +1,6 @@
-import {  Image, View, Text, StyleSheet } from 'react-native';
+import {  Image, View, Text, StyleSheet,ScrollView } from 'react-native';
 import { StatItem } from '../ui/StatItem';
 import { theme } from '../../styles/theme.styles';
-import AntDesign from '@expo/vector-icons/AntDesign';
 
 const { colors, typography } = theme;
 
@@ -41,10 +40,10 @@ export const MovieDetails = ({ movie }) => {
         ))}
       </View>
 
-      <View style={styles.section}>
+      <ScrollView style={styles.section}>
         <Text style={styles.sectionTitle}>Overview</Text>
         <Text style={styles.overview}>{movie.overview}</Text>
-      </View>
+      </ScrollView>
     </View>
       
   );

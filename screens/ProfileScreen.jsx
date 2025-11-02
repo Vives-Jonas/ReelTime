@@ -1,5 +1,5 @@
 import {  StyleSheet } from 'react-native';
-import { ProfileContainer } from '../components/profile/ProfileContainer';
+import { ProfileContainer } from '../components';
 import profile from '../data/profile';
 
 export const ProfileScreen = ({}) => {

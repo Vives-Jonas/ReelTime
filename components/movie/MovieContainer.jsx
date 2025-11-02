@@ -5,12 +5,12 @@ import { theme } from '../../styles/theme.styles';
 
 const {  typography } = theme;
 
-export const MovieContainer = ({ title, movies}) => {
+export const MovieContainer = ({ title, movies, loading, error }) => {
   return (
     
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <MovieList movies={movies}  />
+      <MovieList movies={movies} loading={loading} error={error} />
     </View>
   );
 };
