@@ -5,17 +5,17 @@ import { getPopularMovies, getTopRatedMovies } from '../data/api';
 
 export const HomeScreen = () => {
   
-  const [popularMovies, setPopularMovies] = useState([]);
-  const [topRatedMovies, setTopRatedMovies] = useState([]);
+  
+  const [movies, setMovies] = useState({ popular: [], topRated: [] });
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filter, setFilter] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState({ popular: true, topRated: true });
+  const [error, setError] = useState({ popular: null, topRated: null });
 
   
-  const applyFilters = (movies) => {
-    return movies.filter(movie => {
+  const applyFilters = (movieList) => {
+    return movieList.filter(movie => {
       const matchesSearch = movie.title.toLowerCase().includes(debouncedSearch.toLowerCase());
       const matchesFilter = !filter|| movie.vote_average >= 7;
       return matchesSearch && matchesFilter;
@@ -24,29 +24,51 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     const loadMovies = async () => {
+      setLoading({ popular: true, topRated: true });
+      setError({ popular: null, topRated: null });
       try {
-        setLoading(true);
-        setError(null);
-        const [popular, topRated] = await Promise.all([
-          getPopularMovies(),
-          getTopRatedMovies()
-        ]);
-        setPopularMovies(popular);
-        setTopRatedMovies(topRated);
-        console.log('Movies loaded successfully');
-      } catch (err) {
-        setError('Failed to load movies');
-        console.error('Error loading movies:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const [popularResult, topRatedResult] = await Promise.allSettled([
+        getPopularMovies(),
+        getTopRatedMovies()
+      ]);
 
-    loadMovies();
+      if (popularResult.status === 'fulfilled') {
+        setMovies(prev => ({ ...prev, popular: popularResult.value }));
+        setError(prev => ({ ...prev, popular: null }));
+      } else {
+        setMovies(prev => ({ ...prev, popular: [] }));
+        setError(prev => ({ ...prev, popular: 'Failed to load popular movies' }));
+        console.error('Popular movies error:', popularResult.reason);
+      }
+      setLoading(prev => ({ ...prev, popular: false }));
+
+      if (topRatedResult.status === 'fulfilled') {
+        setMovies(prev => ({ ...prev, topRated: topRatedResult.value }));
+        setError(prev => ({ ...prev, topRated: null }));
+      } else {
+        setMovies(prev => ({ ...prev, topRated: [] }));
+        setError(prev => ({ ...prev, topRated: 'Failed to load top-rated movies' }));
+        console.error('Top rated movies error:', topRatedResult.reason);
+      }
+      setLoading(prev => ({ ...prev, topRated: false }));
+
+      console.log('Movies load completed (partial success possible)');
+    } catch (err) {      
+      console.error('Unexpected error loading movies:', err);
+      setMovies({ popular: [], topRated: [] });
+      setError({ popular: 'Unexpected error', topRated: 'Unexpected error' });         
+    }
+    finally {
+      console.log('Movie loading attempt finished');
+      setLoading({ popular: false, topRated: false });
+    }
+  };
+
+  loadMovies();
 
     return () => {
-    console.log('HomeScreen unmounted - Cleaning up...');
-  };
+      console.log('HomeScreen unmounted - Cleaning up...');
+    };
   }, []);
 
   useEffect(() => {
@@ -72,17 +94,17 @@ useEffect(() => {
       <SearchBar searchValue={search} onChangeText={setSearch} filterValue={filter} onValueChange={setFilter} />
             
       <MovieContainer 
-        title="Popular Movies" 
-        movies={applyFilters(popularMovies)} 
-        loading={loading}
-        error={error}
+        title='Popular Movies' 
+        movies={applyFilters(movies.popular)} 
+        loading={loading.popular}
+        error={error.popular}
       />
       
       <MovieContainer 
-        title="Top Rated Movies" 
-        movies={applyFilters(topRatedMovies)} 
-        loading={loading}
-        error={error}
+        title='Top Rated Movies' 
+        movies={applyFilters(movies.topRated)} 
+        loading={loading.topRated}
+        error={error.topRated}
       />
     </ScrollView>
   );
