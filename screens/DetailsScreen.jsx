@@ -1,4 +1,4 @@
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View,Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { MovieDetails} from '../components';
 import { getMovie } from '../data/api';
@@ -14,38 +14,50 @@ export const DetailsScreen = ({ route }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-   
-      const fetchMovie = async () => {
-        try {
-        setLoading(true);
-        setError(null);
-        const movieData = await getMovie(id);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setMovie(movieData);
+   const fetchMovie = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await getMovie(id);
+        setMovie(data);
       } catch (err) {
-        setError('Failed to load movie details');
+        console.error('DetailsScreen error:', err);
+        setError(err.message || 'Failed to load movie details');
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchMovie();
   }, [id]);
 
+  if (loading)
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={colors.primary || "#0000ff"} />
+      </View>
+    );
+
+  if (error)
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+
+  if (!movie)
+    return (
+      <View style={styles.centered}>
+        <Text>No movie found.</Text>
+      </View>
+    );
 
   return (
-  <View style={styles.container}>
-    {loading ? (
-      <ActivityIndicator size="large"ActivityIndicator color="#0000ff" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
-    ) : error ? (
-        <View style={styles.centered}>
-          <Text style={styles.errorText}>{error}</Text>
-        </View>
-      ) :(
+    <View style={styles.container}>
       <MovieDetails movie={movie} />
-    )}
-  </View>
-);
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

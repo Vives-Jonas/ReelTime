@@ -23,53 +23,40 @@ export const HomeScreen = () => {
   };
 
   useEffect(() => {
-    const loadMovies = async () => {
-      setLoading({ popular: true, topRated: true });
-      setError({ popular: null, topRated: null });
-      try {
-      const [popularResult, topRatedResult] = await Promise.allSettled([
-        getPopularMovies(),
-        getTopRatedMovies()
-      ]);
+  const loadMovies = async () => {
+    setLoading({ popular: true, topRated: true });
+    setError({ popular: null, topRated: null });
+    
+    const [popularResult, topRatedResult] = await Promise.allSettled([
+      getPopularMovies(),
+      getTopRatedMovies()
+    ]);
 
-      if (popularResult.status === 'fulfilled') {
-        setMovies(prev => ({ ...prev, popular: popularResult.value }));
-        setError(prev => ({ ...prev, popular: null }));
-      } else {
-        setMovies(prev => ({ ...prev, popular: [] }));
-        setError(prev => ({ ...prev, popular: 'Failed to load popular movies' }));
-        console.error('Popular movies error:', popularResult.reason);
-      }
-      setLoading(prev => ({ ...prev, popular: false }));
-
-      if (topRatedResult.status === 'fulfilled') {
-        setMovies(prev => ({ ...prev, topRated: topRatedResult.value }));
-        setError(prev => ({ ...prev, topRated: null }));
-      } else {
-        setMovies(prev => ({ ...prev, topRated: [] }));
-        setError(prev => ({ ...prev, topRated: 'Failed to load top-rated movies' }));
-        console.error('Top rated movies error:', topRatedResult.reason);
-      }
-      setLoading(prev => ({ ...prev, topRated: false }));
-
-      console.log('Movies load completed (partial success possible)');
-    } catch (err) {      
-      console.error('Unexpected error loading movies:', err);
-      setMovies({ popular: [], topRated: [] });
-      setError({ popular: 'Unexpected error', topRated: 'Unexpected error' });         
+    if (popularResult.status === 'fulfilled') {
+      setMovies(prev => ({ ...prev, popular: popularResult.value }));
+    } else {
+      console.error('Popular movies error:', popularResult.reason);
+      setMovies(prev => ({ ...prev, popular: [] }));
+      setError(prev => ({ ...prev, popular: 'Failed to load popular movies' }));
     }
-    finally {
-      console.log('Movie loading attempt finished');
-      setLoading({ popular: false, topRated: false });
+    setLoading(prev => ({ ...prev, popular: false }));
+
+    if (topRatedResult.status === 'fulfilled') {
+      setMovies(prev => ({ ...prev, topRated: topRatedResult.value }));
+    } else {
+      console.error('Top rated movies error:', topRatedResult.reason);
+      setMovies(prev => ({ ...prev, topRated: [] }));
+      setError(prev => ({ ...prev, topRated: 'Failed to load top-rated movies' }));
     }
+    setLoading(prev => ({ ...prev, topRated: false }));
   };
 
   loadMovies();
 
-    return () => {
-      console.log('HomeScreen unmounted - Cleaning up...');
-    };
-  }, []);
+  return () => {
+    console.log('HomeScreen unmounted - Cleaning up...');
+  };
+}, []);
 
   useEffect(() => {
     console.log('[EFFECT] Filters changed:', { search, filter });

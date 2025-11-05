@@ -6,9 +6,10 @@ import { theme } from '../../styles/theme.styles';
 const {  typography } = theme;
 
 export const MovieContainer = ({ title, movies, loading, error }) => {
+  
   return (
     
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>{title}</Text>
       <MovieList movies={movies} loading={loading} error={error} />
     </View>
@@ -16,9 +17,7 @@ export const MovieContainer = ({ title, movies, loading, error }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  
   title: {
     fontSize: typography.title,
     fontWeight: 'bold',

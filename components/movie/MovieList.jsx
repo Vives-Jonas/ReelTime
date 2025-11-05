@@ -5,9 +5,9 @@ import { theme } from '../../styles/theme.styles';
 
 const { colors, typography } = theme;
 
-export const MovieList = ({ movies, loading = false, error = null }) => {
+export const MovieList = ({ movies, loading, error}) => {
   
-if (loading) {
+  if (loading) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color="#0000ff" />
