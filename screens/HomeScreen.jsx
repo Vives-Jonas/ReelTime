@@ -10,16 +10,26 @@ export const HomeScreen = () => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filter, setFilter] = useState(false);
+  const [sort, setSort] = useState('default');
   const [loading, setLoading] = useState({ popular: true, topRated: true });
   const [error, setError] = useState({ popular: null, topRated: null });
 
   
-  const applyFilters = (movieList) => {
-    return movieList.filter(movie => {
+  const applyFiltersAndSort = (movieList) => {
+    let filteredMovies = movieList.filter(movie => {
       const matchesSearch = movie.title.toLowerCase().includes(debouncedSearch.toLowerCase());
-      const matchesFilter = !filter|| movie.vote_average >= 7;
+      const matchesFilter = !filter || movie.vote_average >= 7;
       return matchesSearch && matchesFilter;
     });
+
+    
+    if (sort === 'rating') {
+      filteredMovies = [...filteredMovies].sort((a, b) => b.vote_average - a.vote_average);
+    } else if (sort === 'title') {
+      filteredMovies = [...filteredMovies].sort((a, b) => a.title.localeCompare(b.title));
+    }
+    
+    return filteredMovies;
   };
 
   useEffect(() => {
@@ -59,8 +69,8 @@ export const HomeScreen = () => {
 }, []);
 
   useEffect(() => {
-    console.log('[EFFECT] Filters changed:', { search, filter });
-  }, [search, filter]);
+    console.log('[EFFECT] Filters/Sort changed:', { search, filter, sort });
+  }, [search, filter, sort]);
 
 useEffect(() => {
     console.log('[EFFECT] Search input changed, starting 500ms delay...');
@@ -78,18 +88,25 @@ useEffect(() => {
 
   return (
     <ScrollView style={styles.container}>
-      <SearchBar searchValue={search} onChangeText={setSearch} filterValue={filter} onValueChange={setFilter} />
+      <SearchBar 
+        searchValue={search} 
+        onChangeText={setSearch} 
+        filterValue={filter} 
+        onValueChange={setFilter}
+        sortValue={sort}
+        onSortChange={setSort}
+      />
             
       <MovieContainer 
         title='Popular Movies' 
-        movies={applyFilters(movies.popular)} 
+        movies={applyFiltersAndSort(movies.popular)} 
         loading={loading.popular}
         error={error.popular}
       />
       
       <MovieContainer 
         title='Top Rated Movies' 
-        movies={applyFilters(movies.topRated)} 
+        movies={applyFiltersAndSort(movies.topRated)} 
         loading={loading.topRated}
         error={error.topRated}
       />
