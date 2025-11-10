@@ -10,6 +10,7 @@ A modern React Native mobile application for browsing popular and top-rated movi
 -  Browse popular and top-rated movies
 -  Real-time search functionality with debouncing
 -  Filter movies by rating (7.0+)
+-  Sort movies by rating or title
 -  Detailed movie information including poster, genres, runtime and release date
 -  User profile screen with personal information
 
@@ -76,7 +77,7 @@ Before running this application, ensure you have the following installed:
    - Scan the QR code with the Expo Go app (iOS/Android)
    - Press `w` to open in browser
 
-## Search & Filter Logic
+## Search, Filter & Sort Logic
 
 ### Search Functionality
 The search feature implements a **debounced search** mechanism to optimize performance and reduce unnecessary API calls:
@@ -101,17 +102,34 @@ useEffect(() => {
 The app provides a **rating filter** toggle:
 
 - When enabled, only movies with a rating of **7.0 or higher** are displayed
-- The filter can be combined with the search functionality
-- Both filters are applied simultaneously using the `applyFilters` function
+- The filter can be combined with the search functionality and sorting options
+- All filters and sorting are applied simultaneously using the `applyFiltersAndSort` function
 
-**Filter Application:**
+### Sort Logic
+The app provides **three sorting options** via simple button-based UI:
+
+- **Default** - Shows movies in their original order from the API
+- **Rating** - Sorts movies by rating (highest to lowest)
+- **Title** - Sorts movies alphabetically (A-Z)
+
+**Combined Filter & Sort Application:**
 ```javascript
-const applyFilters = (movies) => {
-  return movies.filter(movie => {
+const applyFiltersAndSort = (movies) => {
+  // First, filter the movies
+  let filteredMovies = movies.filter(movie => {
     const matchesSearch = movie.title.toLowerCase().includes(debouncedSearch.toLowerCase());
     const matchesFilter = !filter || movie.vote_average >= 7;
     return matchesSearch && matchesFilter;
   });
+
+  // Then, sort the filtered results
+  if (sort === 'rating') {
+    filteredMovies = [...filteredMovies].sort((a, b) => b.vote_average - a.vote_average);
+  } else if (sort === 'title') {
+    filteredMovies = [...filteredMovies].sort((a, b) => a.title.localeCompare(b.title));
+  }
+  
+  return filteredMovies;
 };
 ```
 
@@ -184,6 +202,7 @@ Een moderne React Native mobiele applicatie voor het bekijken van populaire en b
 -  Bekijk populaire en best beoordeelde films
 -  Real-time zoekfunctionaliteit met debouncing
 -  Filter films op beoordeling (7.0+)
+-  Sorteer films op beoordeling of titel
 -  Gedetailleerde filminformatie inclusief poster, genres, speelduur en releasedatum
 -  Gebruikersprofielscherm met statische informatie
 
@@ -250,7 +269,7 @@ Voordat je deze applicatie uitvoert, zorg ervoor dat je het volgende hebt geïns
    - Scan de QR-code met de Expo Go app (iOS/Android)
    - Druk op `w` om te openen in browser
 
-## Zoek- & Filterlogica
+## Zoek-, Filter- & Sorteerlogica
 
 ### Zoekfunctionaliteit
 De zoekfunctie implementeert een **debounced search** mechanisme om de prestaties te optimaliseren en onnodige API-aanroepen te verminderen:
@@ -275,17 +294,34 @@ useEffect(() => {
 De app biedt een **beoordelingsfilter** toggle:
 
 - Wanneer ingeschakeld, worden alleen films met een beoordeling van **7.0 of hoger** weergegeven
-- Het filter kan worden gecombineerd met de zoekfunctionaliteit
-- Beide filters worden tegelijkertijd toegepast met behulp van de `applyFilters` functie
+- Het filter kan worden gecombineerd met de zoekfunctionaliteit en sorteeropties
+- Alle filters en sortering worden tegelijkertijd toegepast met behulp van de `applyFiltersAndSort` functie
 
-**Filter Toepassing:**
+### Sorteerlogica
+De app biedt **drie sorteeropties** via een eenvoudige knop-gebaseerde UI:
+
+- **Default** - Toont films in hun originele volgorde van de API
+- **Rating** - Sorteert films op beoordeling (hoogste naar laagste)
+- **Title** - Sorteert films alfabetisch (A-Z)
+
+**Gecombineerde Filter & Sorteer Toepassing:**
 ```javascript
-const applyFilters = (movies) => {
-  return movies.filter(movie => {
+const applyFiltersAndSort = (movies) => {
+  // Eerst filteren we de films
+  let filteredMovies = movies.filter(movie => {
     const matchesSearch = movie.title.toLowerCase().includes(debouncedSearch.toLowerCase());
     const matchesFilter = !filter || movie.vote_average >= 7;
     return matchesSearch && matchesFilter;
   });
+
+  // Daarna sorteren we de gefilterde resultaten
+  if (sort === 'rating') {
+    filteredMovies = [...filteredMovies].sort((a, b) => b.vote_average - a.vote_average);
+  } else if (sort === 'title') {
+    filteredMovies = [...filteredMovies].sort((a, b) => a.title.localeCompare(b.title));
+  }
+  
+  return filteredMovies;
 };
 ```
 
